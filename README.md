@@ -1,1 +1,1 @@
-# termbot
+# TermBot
