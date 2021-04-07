@@ -5,7 +5,7 @@ TermBot is a bot that aims to be as customizeable as possible, while can also be
 Start out by running `npm i`, and then running `npm run first` to fill out the needed configuration. Once that is all done, you can run `npm start` and it should start if everything was set up well!
 
 ## How to get started (Hosted by me)
-If you cannot host this bot yourself, then I have the bot hosted, but you cannot customize the bots name or colour scheme. You can add it to your server [here](https://discord.com/api/oauth2/authorize?client_id=829039991727325194&permissions=469888087&scope=bot)
+If you cannot host this bot yourself, then I have the bot hosted, but you cannot customize the bots name or colour scheme. You can add it to your server [here](https://discord.com/api/oauth2/authorize?client_id=829039991727325194&permissions=469888087&scope=bot) [W.I.P]
 
 
 ## Contributing

@@ -1,4 +1,4 @@
-const { prefix } = require("../config.json");
+const { prefix, owner } = require("../config.json");
 const chalk = require('chalk')
 
 module.exports = {
@@ -18,10 +18,16 @@ module.exports = {
 
     if (!client.commands.has(command)) return;
 
+    // ──────────────────────────────────────────────────────────────────── [ When owner is set to true, it makes the command only available to you ]
+
+    
+
     // ──────────────────────────────────────────────────────────────────── [ Tries to run the command, and if it encounters an error, it logs it in the console and lets the user know there was an error ]
 
     try {
-      client.commands.get(command).execute(message, client, args);
+      const cmd = client.commands.get(command)
+      if (cmd.ownersOnly && (message.author.id !== owner)) return message.channel.send('Fuck you')
+      cmd.execute(message, client, args);
     } catch (error) {
       console.log(
         chalk.bold.red(`There was an error executing the command "${command}": \n${error}`)

@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const { textSync } = require("figlet");
-const { botname, colour } = require("../config.json");
+const { botname, botColour } = require("../config.json");
 const chalkAnimation = require('chalk-animation');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
     // ──────────────────────────────────────────────────────────────────── [ Prints the bot name in console ]
 
     console.log(
-      chalk.hex(colour)(
+      chalk.hex(botColour)(
         textSync(`${botname}!`, {
           font: "Slant",
           horizontalLayout: "fitted",

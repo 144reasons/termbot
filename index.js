@@ -7,7 +7,7 @@ const { token } = require("./config.json");
 
 // ──────────────────────────────────────────────────────────────────── [ Client start ]
 
-const client = new Discord.Client();
+const client = new Discord.Client({ ws: { properties: { $browser: "Discord iOS" }} });
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 client.commands = new Discord.Collection();
 

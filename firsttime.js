@@ -29,7 +29,7 @@ try {
         },
         {
             type: 'select',
-            name: 'colour',
+            name: 'botColour',
             message: 'What\'s the bots colourtheme?',
             choices: [
                 { title: 'Red', value: '#b80000' },
