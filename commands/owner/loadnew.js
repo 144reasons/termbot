@@ -44,6 +44,7 @@ for (const file of commandFiles) {
       message.channel.send('New commands Have been added')
     }
     catch (error) {
+      console.log(error)
       message.reply(`There was an error when loading the new commands, \n\n**${error}**`);
     }}
 }
