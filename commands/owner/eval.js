@@ -5,6 +5,7 @@ module.exports = {
   name: "eval",
   description: "Eval",
   ownerOnly: true,
+  hidden: true,
   execute(message, client, args) {
 
     try {

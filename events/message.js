@@ -18,15 +18,11 @@ module.exports = {
 
     if (!client.commands.has(command)) return;
 
-    // ──────────────────────────────────────────────────────────────────── [ When owner is set to true, it makes the command only available to you ]
-
-    
-
     // ──────────────────────────────────────────────────────────────────── [ Tries to run the command, and if it encounters an error, it logs it in the console and lets the user know there was an error ]
 
     try {
       const cmd = client.commands.get(command)
-      if (cmd.ownersOnly && (message.author.id !== owner)) return message.channel.send('Fuck you')
+      if (cmd.ownersOnly && (message.author.id !== owner)) return message.channel.send('This command isnt made for you!')
       cmd.execute(message, client, args);
     } catch (error) {
       console.log(

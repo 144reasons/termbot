@@ -28,6 +28,11 @@ try {
             message: 'What\'s your ID?'
         },
         {
+            type: 'text',
+            name: 'errorchannelID',
+            message: 'What\'s your error log channel ID?'
+        },
+        {
             type: 'select',
             name: 'botColour',
             message: 'What\'s the bots colourtheme?',
@@ -38,6 +43,7 @@ try {
                 { title: 'Orange', value: '#FFA500' },
                 { title: 'Pink', value: '#FFC0CB' },
                 { title: 'Purple', value: '#800080' },
+                { title: 'Yellow', value: '#FFFF00' },
               ]
         }
     ]
