@@ -1,105 +1,64 @@
-const { MessageEmbed } = require("discord.js");
+const Discord = require("discord.js");
 const { readdirSync } = require("fs");
 const { botColour } = require('../../config.json')
+const version = ('1.0')
 
 module.exports = {
-    name: "help",
-    description: "get some fucking help",
+    name: 'help',
+    usage: "help <cmd>",
+    description: 'Get Help',
+    category: "Utility",
+    aliases: "h",
     execute(message, client, args) {
-
-
-        if (!args[0]) {
-            let categories = [];
-
-            readdirSync("./commands/").forEach((dir) => {
-                const commands = readdirSync(`./commands/${dir}/`).filter((file) =>
-                    file.endsWith(".js")
-                );
-
-                const cmds = commands.filter((command) => {
-                    let file = require(`../../commands/${dir}/${command}`);
-                    return !file.hidden;
-                }).map((command) => {
-                    let file = require(`../../commands/${dir}/${command}`);
-
-                    if (!file.name) return "No command name.";
-
-                    let name = file.name.replace(".js", "");
-
-                    return `\`${name}\``;
-                });
-
-                let data = new Object();
-
-                data = {
-                    name: dir.toUpperCase(),
-                    value: cmds.length === 0 ? "In progress." : cmds.join(" "),
-                };
-
-                categories.push(data);
-            });
-
-            const embed = new MessageEmbed()
-                .addFields(categories)
-                .setDescription(
-                    `Use \`-help\` followed by a command name to get more additional information on a command. For example: \`-help help\`.`
-                )
-                .setFooter(
-                    `Requested by ${message.author.tag}`,
-                    message.author.displayAvatarURL({
-                        dynamic: true
-                    })
-                )
-                .setTimestamp()
-                .setColor(botColour);
-            return message.channel.send(embed);
-        } else {
-            const command =
-                client.commands.get(args[0].toLowerCase()) ||
-                client.commands.find(
-                    (c) => c.aliases && c.aliases.includes(args[0].toLowerCase())
-                );
-
-            if (!command) {
-                const embed = new MessageEmbed()
-                    .setTitle(`Invalid command! Use \`-help\` for all of my commands!`)
-                    .setColor("FF0000");
+        try {
+            if (args[0]) {
+                const command = client.commands.get(args[0]);
+                if (!command) {
+                    return message.channel.send("Unknown Command: " + args[0]);
+                }
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(command.name, client.user.displayAvatarURL())
+                    .addField("Description", command.description || "No Description", false)
+                    .addField("Usage", command.usage || "Not Provied", false)
+                    .addField("aliases", command.aliases || "No Aliases", false)
+                    .setThumbnail(client.user.displayAvatarURL())
+                    .setColor(botColour)
+                    .setFooter(client.user.username, client.user.displayAvatarURL());
                 return message.channel.send(embed);
-            }
+            } else {
+                const commands = client.commands;
+                let helpem = new Discord.MessageEmbed()
+                    .setDescription(`${client.user.username} | Command Amount: ${client.commands.size}`)
+                    .setColor(botColour)
+                    .setFooter(client.user.username, client.user.displayAvatarURL())
 
-            const embed = new MessageEmbed()
-                .setTitle("Command Details:")
-                .addField(
-                    "COMMAND:",
-                    command.name ? `\`${command.name}\`` : "No name for this command."
-                )
-                .addField(
-                    "ALIASES:",
-                    command.aliases ?
-                    `\`${command.aliases.join("` `")}\`` :
-                    "No aliases for this command."
-                )
-                .addField(
-                    "USAGE:",
-                    command.usage ?
-                    `\`-${command.name} ${command.usage}\`` :
-                    `\`-${command.name}\``
-                )
-                .addField(
-                    "DESCRIPTION:",
-                    command.description ?
-                    command.description :
-                    "No description for this command."
-                )
-                .setFooter(
-                    `Requested by ${message.author.tag}`,
-                    message.author.displayAvatarURL({
-                        dynamic: true
-                    })
-                )
-                .setTimestamp()
-                .setColor(botColour);
-            return message.channel.send(embed);
+
+                let com = {};
+                for (let comm of commands.array()) {
+                    let category = comm.category || "No Category";
+                    let name = comm.name;
+
+                    if (!com[category]) {
+                        com[category] = [];
+                    }
+                    com[category].push(name);
+
+                }
+
+                for (const [key, value] of Object.entries(com)) {
+                    let category = key;
+
+                    let desc = "`" + value.join("`, `") + "`";
+
+                    helpem.addField(`${category.toUpperCase()} [${value.length}]`, desc);
+
+                }
+                return message.channel.send(helpem);
+
+            }
+        } catch (err) {
+            console.log(err);
+            message.reply(`There was a error when running the command`);
         }
-    },
-};
+    }
+}
