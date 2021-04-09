@@ -43,6 +43,7 @@ try {
                 { title: 'Orange', value: '#FFA500' },
                 { title: 'Pink', value: '#FFC0CB' },
                 { title: 'Purple', value: '#800080' },
+                { title: 'Yellow', value: '#FFFF00' },
               ]
         }
     ]
