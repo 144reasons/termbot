@@ -28,6 +28,11 @@ try {
             message: 'What\'s your ID?'
         },
         {
+            type: 'text',
+            name: 'errorchannelID',
+            message: 'What\'s your error log channel ID?'
+        },
+        {
             type: 'select',
             name: 'botColour',
             message: 'What\'s the bots colourtheme?',
