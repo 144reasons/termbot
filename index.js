@@ -3,24 +3,28 @@
 const Discord = require("discord.js");
 const chalk = require("chalk");
 const fs = require("fs");
-const { inspect } = require("util")
+const { inspect } = require("util");
 const { token, errorchannelID } = require("./config.json");
 
 // ──────────────────────────────────────────────────────────────────── [ Client start ]
 
-const client = new Discord.Client({ ws: { properties: { $browser: "Discord iOS" }} });
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const client = new Discord.Client({
+  ws: { properties: { $browser: "Discord iOS" } },
+});
+const eventFiles = fs
+  .readdirSync("./events")
+  .filter((file) => file.endsWith(".js"));
 client.commands = new Discord.Collection();
 
 // ──────────────────────────────────────────────────────────────────── [ Event handler ]
 
 for (const file of eventFiles) {
-	const event = require(`./events/${file}`);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args, client));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args, client));
-	}
+  const event = require(`./events/${file}`);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args, client));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args, client));
+  }
 }
 
 // ──────────────────────────────────────────────────────────────────── [ Part of command handler ]
@@ -48,15 +52,31 @@ process.on("SIGINT", async () => {
 // ──────────────────────────────────────────────────────────────────── [ Log errors to channel that was set ]
 
 if (errorchannelID) {
-  process.on('unhandledRejection', (reason, promise) => {
-    client.channels.cache.get(errorchannelID).send(`UnhandledRejection\nReason:\n\`\`\`\n${inspect(reason, { depth: 0 })}\n\`\`\` Promise:\n\`\`\`\n${inspect(promise, { depth: 0 })}\n\`\`\``)
-  })
-  process.on('uncaughtException', (err, origin) => {
-    client.channels.cache.get(errorchannelID).send(`UncaughtException\nError:\n\`\`\`\n${inspect(err, { depth: 0 })}\n\`\`\`\nType: ${inspect(origin, { depth: 0 })}`)
-  })
-  process.on('warning', (warn) => {
-    client.channels.cache.get(errorchannelID).send(`Warning\nWarn:\n\`\`\`\n${warn.name}\n${warn.message}\n\n${warn.stack}\n\`\`\``)
-  })
+  process.on("unhandledRejection", (reason, promise) => {
+    client.channels.cache
+      .get(errorchannelID)
+      .send(
+        `UnhandledRejection\nReason:\n\`\`\`\n${inspect(reason, {
+          depth: 0,
+        })}\n\`\`\` Promise:\n\`\`\`\n${inspect(promise, { depth: 0 })}\n\`\`\``
+      );
+  });
+  process.on("uncaughtException", (err, origin) => {
+    client.channels.cache
+      .get(errorchannelID)
+      .send(
+        `UncaughtException\nError:\n\`\`\`\n${inspect(err, {
+          depth: 0,
+        })}\n\`\`\`\nType: ${inspect(origin, { depth: 0 })}`
+      );
+  });
+  process.on("warning", (warn) => {
+    client.channels.cache
+      .get(errorchannelID)
+      .send(
+        `Warning\nWarn:\n\`\`\`\n${warn.name}\n${warn.message}\n\n${warn.stack}\n\`\`\``
+      );
+  });
 }
 
 // ──────────────────────────────────────────────────────────────────── [ Login ]
