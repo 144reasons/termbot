@@ -1,13 +1,12 @@
 const chalk = require("chalk");
 const { textSync } = require("figlet");
 const { botname, botColour } = require("../config.json");
-const chalkAnimation = require('chalk-animation');
+const chalkAnimation = require("chalk-animation");
 
 module.exports = {
   name: "ready",
   once: true,
   execute(client) {
-
     // ──────────────────────────────────────────────────────────────────── [ Prints the bot name in console ]
 
     console.log(
@@ -28,12 +27,14 @@ module.exports = {
 
     // ────────────────────────────────────────────────────────────────────  [ Adds a little indicator to indicate the bot is ready! (Runs for 30 seconds) ]
 
-    const rainbow = chalkAnimation.pulse(`The bot is nice and set! Logged in as: ${client.user.tag}`);
+    const rainbow = chalkAnimation.pulse(
+      `The bot is nice and set! Logged in as: ${client.user.tag}`
+    );
 
     setTimeout(() => {
-        rainbow.stop();
+      rainbow.stop();
     }, 30000);
 
-    // ──────────────────────────────────────────────────────────────────── 
+    // ────────────────────────────────────────────────────────────────────
   },
 };

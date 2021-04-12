@@ -12,6 +12,7 @@
   "author": "ICodeInAssembly",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^2.7.0",
     "chalk": "^4.1.0",
     "chalk-animation": "^1.6.0",
     "discord.js": "^12.5.3",
