@@ -12,6 +12,9 @@
   "author": "ICodeInAssembly",
   "license": "ISC",
   "dependencies": {
+    "@keyv/mongo": "^1.1.0",
+    "@keyv/sqlite": "^2.0.2",
+    "badwords-filter": "^1.0.0",
     "canvas": "^2.7.0",
     "chalk": "^4.1.0",
     "chalk-animation": "^1.6.0",

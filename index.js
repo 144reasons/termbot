@@ -51,33 +51,33 @@ process.on("SIGINT", async () => {
 
 // ──────────────────────────────────────────────────────────────────── [ Log errors to channel that was set ]
 
-if (errorchannelID) {
-  process.on("unhandledRejection", (reason, promise) => {
-    client.channels.cache
-      .get(errorchannelID)
-      .send(
-        `UnhandledRejection\nReason:\n\`\`\`\n${inspect(reason, {
-          depth: 0,
-        })}\n\`\`\` Promise:\n\`\`\`\n${inspect(promise, { depth: 0 })}\n\`\`\``
-      );
-  });
-  process.on("uncaughtException", (err, origin) => {
-    client.channels.cache
-      .get(errorchannelID)
-      .send(
-        `UncaughtException\nError:\n\`\`\`\n${inspect(err, {
-          depth: 0,
-        })}\n\`\`\`\nType: ${inspect(origin, { depth: 0 })}`
-      );
-  });
-  process.on("warning", (warn) => {
-    client.channels.cache
-      .get(errorchannelID)
-      .send(
-        `Warning\nWarn:\n\`\`\`\n${warn.name}\n${warn.message}\n\n${warn.stack}\n\`\`\``
-      );
-  });
-}
+// if (errorchannelID) {
+//   process.on("unhandledRejection", (reason, promise) => {
+//     client.channels.cache
+//       .get(errorchannelID)
+//       .send(
+//         `UnhandledRejection\nReason:\n\`\`\`\n${inspect(reason, {
+//           depth: 0,
+//         })}\n\`\`\` Promise:\n\`\`\`\n${inspect(promise, { depth: 0 })}\n\`\`\``
+//       );
+//   });
+//   process.on("uncaughtException", (err, origin) => {
+//     client.channels.cache
+//       .get(errorchannelID)
+//       .send(
+//         `UncaughtException\nError:\n\`\`\`\n${inspect(err, {
+//           depth: 0,
+//         })}\n\`\`\`\nType: ${inspect(origin, { depth: 0 })}`
+//       );
+//   });
+//   process.on("warning", (warn) => {
+//     client.channels.cache
+//       .get(errorchannelID)
+//       .send(
+//         `Warning\nWarn:\n\`\`\`\n${warn.name}\n${warn.message}\n\n${warn.stack}\n\`\`\``
+//       );
+//   });
+// }
 
 // ──────────────────────────────────────────────────────────────────── [ Login ]
 
