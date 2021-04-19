@@ -78,6 +78,40 @@ if (errorchannelID) {
       );
   });
 }
+// For some reason had to make this in Index as I tried making a event using your template and it didn't work srrryy Maybe you could get it to work
+client.on("guildCreate", guild => {
+  // The channel Finds any channel it can talk in then posts this message
+const channel = guild.channels.cache.find(channel => channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'))
+const USER1 = client.users.cache.find(u => u.id === '379781622704111626').tag
+const USER2 = client.users.cache.find(u => u.id === '379781622704111626').tag //While this are not needed They are great because If one of us updates are name/Tag it auto updates next time someone invites the bot
+const USER3 = client.users.cache.find(u => u.id === '379781622704111626').tag
+  const welcomeembed = new Discord.MessageEmbed()
+
+      .setColor('RANDOM')
+      .setTitle('Bot Info')
+      .setAuthor('Thank you for Inviting me!')
+      .setDescription(`I\'m ${client.user.tag}, A bot that aims to be as customizeable as possible, while can also be used to teach how discord bots work.`)
+      .addFields({
+          name: 'Features',
+          value: 'I have A ton of commands That can Be used and Even Better I\'m [Open Sourced](https://github.com/somerandomcloud/termbot) So you can come Contribute and Make the Bot even Better'
+      }, {
+          name: '\u200B',
+          value: '\u200B'
+      }, {
+          name: 'Main Dev',
+          value: `${USER1}`,
+          inline: true
+      }, {
+          name: 'Dev',
+          value: `${USER2}`,
+          inline: true
+      }, )
+      .addField('Contributor', `${USER3}`, true)
+      .setTimestamp()
+      .setFooter('Thx for inviting me', 'https://cdn.discordapp.com/avatars/829039991727325194/eb497491f1ef507fb0b7df25caa84ca3.png');
+
+  channel.send(welcomeembed);
+})
 
 // ──────────────────────────────────────────────────────────────────── [ Login ]
 
