@@ -1,4 +1,4 @@
-const { defaultprefix, owner, helper, botColour, punishmentLogs } = require("../config.json");
+const { prefix, owner, helper, botColour, punishmentLogs } = require("../config.json");
 const chalk = require("chalk");
 const Keyv = require('keyv');
 const Filter = require("badwords-filter");
