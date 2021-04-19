@@ -37,7 +37,8 @@ commandFolders.forEach((x) => {
     .filter((file) => file.endsWith(".js"));
   commandFiles.forEach((d) => {
     const command = require(`./commands/${x}/${d}`);
-
+    // automate command categories
+    command.type = x;
     client.commands.set(command.name, command);
   });
 });
