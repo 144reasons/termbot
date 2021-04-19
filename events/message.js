@@ -1,10 +1,5 @@
-const {
-  prefix,
-  owner,
-  helper,
-  botColour,
-  punishmentLogs,
-} = require("../config.json");
+const { owner, helper, botColour, punishmentLogs } = require("../config.json");
+const defaultPrefix = require("../config.json").prefix;
 const chalk = require("chalk");
 const Keyv = require("keyv");
 const Filter = require("badwords-filter");
@@ -57,7 +52,18 @@ module.exports = {
     if (!authorDB) {
       await userdata.set(`author_${message.author.id}_${message.guild.id}`);
     }
-
+    
+    // ──────────────────────────────────────────────────────────────────── [ Mentions Stuff ]
+    const prefixValue =
+      (await guildconfig.get(`prefix_${message.guild.id}`)) || defaultPrefix;
+    if (
+      message.content == `<@${client.user.id}` ||
+      message.content == `<@!${client.user.id}`
+    )
+      message.channel.send(`Hi! The prefix for your guild is ${prefixValue}!`);
+    // ──────────────────────────────────────────────────────────────────── [ Generates the prefix. ]
+    const prefix =
+      (await guildconfig.get(`prefix_${message.guild.id}`)) || defaultPrefix;
     // ──────────────────────────────────────────────────────────────────── [ Tracks author messages ]
 
     var authmess = await userdata.get(
@@ -145,14 +151,6 @@ module.exports = {
         return sendtome.send(logme);
       }
     }
-
-    // ──────────────────────────────────────────────────────────────────── [ Checks if the guild the message was sent in has a prefix defined already ]
-
-    // const guildprefix = await guildconfig.get(`prefix_${message.guild.id}`)
-
-    // if (guildprefix) {
-    //   const prefix = guildprefix
-    // }
 
     // ──────────────────────────────────────────────────────────────────── [ Checks if the message uses the prefix or if the author is a bot ]
 
