@@ -5,7 +5,7 @@ module.exports = {
     name: "warn",
     description: "Warn a user",
     category: "moderation",
-    async execute(message, client, args, keyv) {
+    async execute(message, client, args, userdata) {
 
         if (!message.member.roles.cache.has('830773872244293632')) return message.channel.send('This command isnt for you!')
 
@@ -15,7 +15,7 @@ module.exports = {
 
         if (offender.id == message.author.id) return message.channel.send('Hey you cant warn yourself!')
 
-        var warns = await keyv.get(`warnings_${offender.id}_${message.guild.id}`)
+        var warns = await userdata.get(`warnings_${offender.id}_${message.guild.id}`)
 
         args.shift();
         const reason = '`' + args.join(' ') + '`';
@@ -23,14 +23,14 @@ module.exports = {
         if (!warns) warns = 1;
         else warns = warns + 1;
 
-        await keyv.set(`warnings_${offender.id}_${message.guild.id}`, warns)
+        await userdata.set(`warnings_${offender.id}_${message.guild.id}`, warns)
 
     const success = new Discord.MessageEmbed()
     .setColor(botColour)
     .setTitle(`${offender.user.username} got warned`)
     .setDescription(`${offender.user.username}#${offender.user.discriminator} (ID: ${offender.id}) was warned for: ${reason}`)
     .setTimestamp()
-    .setFooter(`${client.user.username} || ${message.guild.name}`);
+    .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
 
     message.channel.send(success)
 
@@ -42,7 +42,7 @@ module.exports = {
         Issued by: ${message.author.username}#${message.author.discriminator} (ID: ${message.author.id})
         Reason: ${reason}`)
     .setTimestamp()
-    .setFooter(`${client.user.username} || ${message.guild.name}`);
+    .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
 
     const sendtome = client.channels.cache.get(punishmentLogs)
 

@@ -4,7 +4,7 @@ const { botColour } = require("../../config.json");
 module.exports = {
   name: "status",
   description: "Set the bots status",
-  ownerOnly: true,
+  ownersOnly: true,
   hidden: true,
   execute(message, client, args) {
     const status = args.join(" ");

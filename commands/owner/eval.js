@@ -4,7 +4,7 @@ const { botColour } = require("../../config.json");
 module.exports = {
   name: "eval",
   description: "Eval",
-  ownerOnly: true,
+  ownersOnly: true,
   hidden: true,
   execute(message, client, args) {
     try {
@@ -16,7 +16,8 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setColor(botColour)
         .setTitle("Eval")
-        .setDescription(`\`\`\`${evaled}\`\`\``);
+        .setDescription(`\`\`\`${evaled}\`\`\``)
+        .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
 
       message.channel.send(embed);
     } catch (err) {

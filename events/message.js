@@ -1,24 +1,49 @@
-const { prefix, owner, helper, botColour, punishmentLogs } = require("../config.json");
+const { defaultprefix, owner, helper, botColour, punishmentLogs } = require("../config.json");
 const chalk = require("chalk");
 const Keyv = require('keyv');
 const Filter = require("badwords-filter");
 const badwords = { list: ["nigger", "nigga", "fag", "faggot", "dyke", "chink", "beaner", "sperg", "tranny", "retard", "retarded", "kys", "rape", "raping", "rapist", "pedo"] };
 const filter = new Filter(badwords);
 const antilink = ["https", "http", "discord.gg", "discordapp.com"];
-const Discord = require('discord.js')
+const Discord = require('discord.js');
 
 const antisui = { list: ["suicide", "kms"] };
 const filtersui = new Filter(antisui);
 
-const keyv = new Keyv('sqlite://db.sqlite');
+const userdata = new Keyv('sqlite://db.sqlite', { namespace: 'userdata' });
+const guildconfig = new Keyv('sqlite://db.sqlite', { namespace: 'guildconfig' });
+
+
 
 module.exports = {
   name: "message",
   async execute(message, client) {
 
+    var authorDB = await userdata.get(`author_${message.author.id}_${message.guild.id}`)
+
     if (message.author.bot) return
     
     if (message.channel.type === 'dm') return message.channel.send('Sorry, I dont do dms!')
+
+    // ──────────────────────────────────────────────────────────────────── [ If the user isnt present in the DB, adds them ]
+
+    if (!authorDB) {
+      await userdata.set(`author_${message.author.id}_${message.guild.id}`)
+    }
+
+    // ──────────────────────────────────────────────────────────────────── [ Tracks author messages ]
+
+    var authmess = await userdata.get(`author_messages_${message.author.id}_${message.guild.id}`)
+
+    if (!authmess) authmess = 1;
+        else authmess = authmess + 1;
+
+    await userdata.set(`author_messages_${message.author.id}_${message.guild.id}`, authmess)
+
+    // ──────────────────────────────────────────────────────────────────── [ Anti-spam ]
+
+    var antispam = await userdata.get(`antispam_${message.author.id}_${message.guild.id}`)
+    
     
     // ──────────────────────────────────────────────────────────────────── [ Checks if the message sent is in the automoderated guild ]
 
@@ -48,7 +73,7 @@ module.exports = {
 
     if (found == true) {
 
-      var linkwarns = await keyv.get(`antilink_${message.author.id}_${message.guild.id}`)
+      var linkwarns = await userdata.get(`antilink_${message.author.id}_${message.guild.id}`)
 
       if (!linkwarns) linkwarns = 1;
         else linkwarns = linkwarns + 1;
@@ -67,7 +92,7 @@ module.exports = {
        msg.delete({ timeout: 5000 })
       })
 
-      await keyv.set(`antilink_${message.author.id}_${message.guild.id}`, linkwarns)
+      await userdata.set(`antilink_${message.author.id}_${message.guild.id}`, linkwarns)
       const logme = new Discord.MessageEmbed()
         .setColor(botColour)
         .setTitle(`New link warning`)
@@ -82,7 +107,13 @@ module.exports = {
     }
   }
     
+  // ──────────────────────────────────────────────────────────────────── [ Checks if the guild the message was sent in has a prefix defined already ]
   
+    // const guildprefix = await guildconfig.get(`prefix_${message.guild.id}`)
+
+    // if (guildprefix) {
+    //   const prefix = guildprefix
+    // }
 
     // ──────────────────────────────────────────────────────────────────── [ Checks if the message uses the prefix or if the author is a bot ]
 
@@ -107,7 +138,7 @@ module.exports = {
       if (cmd.ownersOnly && message.author.id !== owner)
         return message.channel.send("This command isnt made for you!");
 
-      cmd.execute(message, client, args, keyv);
+      cmd.execute(message, client, args, userdata, guildconfig);
     } catch (error) {
       console.log(
         chalk.bold.red(

@@ -23,16 +23,16 @@ module.exports = {
           .addField("Usage", command.usage || "Not Provided", false)
           .setThumbnail(client.user.displayAvatarURL())
           .setColor(botColour)
-          .setFooter(client.user.username, client.user.displayAvatarURL());
+          .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
         return message.channel.send(embed);
       } else {
         const commands = client.commands;
         let helpem = new Discord.MessageEmbed()
           .setDescription(
-            `${client.user.username} | Command Amount: ${client.commands.size}`
+            `${client.user.username} | Why is this here?`
           )
           .setColor(botColour)
-          .setFooter(client.user.username, client.user.displayAvatarURL());
+          .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
 
         let com = {};
 
