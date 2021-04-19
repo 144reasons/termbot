@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { botColour } = require("../../config.json");
 
 module.exports = {
   name: "help",
@@ -20,42 +19,42 @@ module.exports = {
             command.description || "No Description",
             false
           )
+          .addField("Category", command.category)
           .addField("Usage", command.usage || "Not Provided", false)
           .setThumbnail(client.user.displayAvatarURL())
-          .setColor(botColour)
-          .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
+          .setColor(client.config.botColour)
+          .setFooter(
+            message.author.username,
+            message.author.displayAvatarURL()
+          );
         return message.channel.send(embed);
       } else {
-        const commands = client.commands;
         let helpem = new Discord.MessageEmbed()
-          .setDescription(
-            `${client.user.username} | Why is this here?`
+          .setAuthor(
+            client.config.botname + " Help Commands",
+            client.user.displayAvatarURL()
           )
-          .setColor(botColour)
-          .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
-
-        let com = {};
-
-        for (let comm of commands.array()) {
-          if (!comm.hidden) {
-            let category = comm.category || "No Category";
-            let name = comm.name;
-
-            if (!com[category]) {
-              com[category] = [];
-            }
-            com[category].push(name);
-          }
-        }
-
-        for (const [key, value] of Object.entries(com)) {
-          let category = key;
-
-          let desc = "`" + value.join("`, `") + "`";
-
-          helpem.addField(`${category.toUpperCase()} [${value.length}]`, desc);
-        }
-        return message.channel.send(helpem);
+          .setColor(client.config.botColour)
+          .setFooter(
+            message.author.username,
+            message.author.displayAvatarURL()
+          );
+        let commandMap = {};
+        require("fs")
+          .readdirSync("./commands/")
+          .forEach((dir) => (commandMap[dir] = []));
+        message.client.commands.forEach((command) => {
+          commandMap[command.type].push(`\`${command.name}\``);
+        });
+        Object.keys(commandMap).forEach((category) => {
+          let cmds = commandMap[category].join(", ");
+          helpem.addField(
+            category.toUpperCase() + ` [${commandMap[category].length}]`,
+            cmds,
+            false
+          );
+        });
+        message.channel.send(helpem);
       }
     } catch (err) {
       console.log(err);

@@ -1,8 +1,5 @@
 module.exports = {
-    name: "",
-    description: "",
-    execute() {
-      
-    },
-  };
-  
+  name: "",
+  description: "",
+  execute() {},
+};

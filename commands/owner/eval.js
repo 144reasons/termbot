@@ -17,7 +17,10 @@ module.exports = {
         .setColor(botColour)
         .setTitle("Eval")
         .setDescription(`\`\`\`${evaled}\`\`\``)
-        .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
+        .setFooter(
+          `${client.user.username} || ${message.guild.name}`,
+          client.user.displayAvatarURL()
+        );
 
       message.channel.send(embed);
     } catch (err) {
