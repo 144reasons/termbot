@@ -1,4 +1,4 @@
-@echo off && color 3 && title First Time Only Time
+@echo off && color 3 && title First Time
 if exist ./config.json (echo: You already have a Config File You don't need more than one!) else (call)
 if exist ./config.json (choice /d y /t 5 > nul) else (call)
 if exist ./config.json (EXIT) else (call)
