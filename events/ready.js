@@ -25,7 +25,6 @@ module.exports = {
     var interval = setInterval(function () {
       var p = Math.floor(Math.random() * 6);
 
-      console.log(p)
 
       if (p == 0) {
         client.user.setActivity(`the Owner`, { type: 'WATCHING' });
