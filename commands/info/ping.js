@@ -11,7 +11,10 @@ module.exports = {
       .setTitle("Bot Ping")
       .setDescription(`Pong! The bots websocket ping is ${client.ws.ping}ms!`)
       .setTimestamp()
-      .setFooter(`${client.user.username} || ${message.guild.name}`, client.user.displayAvatarURL());
+      .setFooter(
+        `${client.user.username} || ${message.guild.name}`,
+        client.user.displayAvatarURL()
+      );
 
     message.channel.send(embed);
   },

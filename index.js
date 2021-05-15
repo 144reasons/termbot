@@ -5,12 +5,15 @@ const chalk = require("chalk");
 const fs = require("fs");
 const { inspect } = require("util");
 const { token, errorchannelID } = require("./config.json");
+const config = require("./config.json");
 
 // ──────────────────────────────────────────────────────────────────── [ Client start ]
-
+// THIS IS MADE BY ME (DRAGONIZEDPIZZA) :D SAMU YOU BETTER NOT STEAL CREDIT OK
 const client = new Discord.Client({
   ws: { properties: { $browser: "Discord iOS" } },
 });
+global.client = client;
+client.config = config;
 const eventFiles = fs
   .readdirSync("./events")
   .filter((file) => file.endsWith(".js"));
@@ -37,7 +40,8 @@ commandFolders.forEach((x) => {
     .filter((file) => file.endsWith(".js"));
   commandFiles.forEach((d) => {
     const command = require(`./commands/${x}/${d}`);
-
+    // automate command categories
+    command.type = x;
     client.commands.set(command.name, command);
   });
 });

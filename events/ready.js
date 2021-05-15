@@ -8,7 +8,6 @@ module.exports = {
   once: true,
   execute(client) {
     // ──────────────────────────────────────────────────────────────────── [ Prints the bot name in console ]
-
     console.log(
       chalk.hex(botColour)(
         textSync(`${botname}!`, {
